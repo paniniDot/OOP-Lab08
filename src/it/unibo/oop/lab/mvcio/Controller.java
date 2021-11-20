@@ -12,22 +12,31 @@ public class Controller {
 
     private static final String SEP = System.getProperty("file.separator");
     private static final String USER_HOME = System.getProperty("user.home");
+    private static final String DEFAULT = "output.txt";
 
     private File currFile;
 
+    /**
+     * 
+     * @param file
+     *      file to set as current
+     */
     public Controller(final File file) {
         this.currFile = file;
     }
 
+    /**
+     *  set the default file as current.
+     */
     public Controller() {
-        this(new File(USER_HOME + SEP + "output.txt"));
+        this(new File(USER_HOME + SEP + DEFAULT));
     }
 
     /**
      * 
      * @return the current considered file
      */
-    public File getCurrFile() {
+    public File getCurrentFile() {
         return currFile;
     }
 
@@ -37,16 +46,21 @@ public class Controller {
      *      file to be setted as current
      */
     public void setCurrFile(final File file) {
-        this.currFile = file;
+        final File parent = file.getParentFile();
+        if (parent.exists()) {
+            this.currFile = file;
+        } else {
+            throw new IllegalArgumentException("Cannot save in a non-existing folder.");
+        }
     }
 
     /**
      * 
-     * @return the canonical path (as a String) of the current considered file
+     * @return path (as a String) of the current considered file
      * @throws IOException
      */
     public String getCurrFilePath() throws IOException {
-        return  currFile.getCanonicalPath();
+        return  currFile.getPath();
     }
 
     private boolean existsAndIsWrittable() {
@@ -55,9 +69,12 @@ public class Controller {
 
     /**
      * 
+     * write some text on the current file.
+     * 
      * @param str
      *      String to be written inside current file
      * @throws IOException
+     *      if the writing fails
      */
     public void writeOnCurrentFile(final String str) throws IOException {
            if (this.existsAndIsWrittable()) {
