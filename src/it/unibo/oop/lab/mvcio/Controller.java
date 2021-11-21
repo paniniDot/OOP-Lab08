@@ -56,6 +56,15 @@ public class Controller {
     }
 
     /**
+     * 
+     * @param fileName
+     *      string format for file to be opened
+     */
+    public void setCurrFile(final String fileName) {
+        this.setCurrFile(new File(fileName));
+    }
+
+    /**
      * @return path (as a String) of the current considered file
      */
     public String getCurrFilePath() {
