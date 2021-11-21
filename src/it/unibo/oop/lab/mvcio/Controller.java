@@ -55,16 +55,10 @@ public class Controller {
     }
 
     /**
-     * 
      * @return path (as a String) of the current considered file
-     * @throws IOException
      */
-    public String getCurrFilePath() throws IOException {
+    public String getCurrFilePath() {
         return  currFile.getPath();
-    }
-
-    private boolean existsAndIsWrittable() {
-        return this.currFile.exists() && this.currFile.canWrite();
     }
 
     /**
@@ -77,12 +71,14 @@ public class Controller {
      *      if the writing fails
      */
     public void writeOnCurrentFile(final String str) throws IOException {
-           if (this.existsAndIsWrittable()) {
-               try (BufferedWriter bw = new BufferedWriter(new FileWriter(currFile))) {
-                   bw.write(str);
-               }
-           } else {
+           if (!this.currFile.exists()) {
+               this.currFile.createNewFile();
+           }
+           if (!this.currFile.canWrite()) {
                throw new IOException();
+           }
+           try (BufferedWriter bw = new BufferedWriter(new FileWriter(currFile))) {
+               bw.write(str);
            }
     }
 
