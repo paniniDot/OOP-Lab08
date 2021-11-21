@@ -1,9 +1,17 @@
 package it.unibo.oop.lab.mvcio;
 
+import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.IOException;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JTextArea;
+import javax.swing.border.Border;
 
 /**
  * A very simple program using a graphical interface.
@@ -50,13 +58,48 @@ public final class SimpleGUI {
         final Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
         final int sw = (int) screen.getWidth();
         final int sh = (int) screen.getHeight();
-        frame.setSize(sw / 2, sh / 2);
+        this.frame.setSize(sw / 2, sh / 2);
         /*
          * Instead of appearing at (0,0), upper left corner of the screen, this
          * flag makes the OS window manager take care of the default positioning
          * on screen. Results may vary, but it is generally the best choice.
          */
         frame.setLocationByPlatform(true);
+
+        final JPanel mainPanel = new JPanel();
+        mainPanel.setLayout(new BorderLayout());
+        final JTextArea text = new JTextArea();
+        final JButton save = new JButton("Save");
+        mainPanel.add(text, BorderLayout.CENTER);
+        mainPanel.add(save, BorderLayout.SOUTH);
+        this.frame.setContentPane(mainPanel);
+
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        /* handlers */
+        save.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(final ActionEvent e) {
+                final Controller ctrl = new Controller();
+                try {
+                    ctrl.writeOnCurrentFile(text.getText());
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
+            }
+        });
     }
 
+    /**
+     *  Let the GUI appears.
+     */
+    public void start() {
+        frame.setVisible(true);
+    }
+
+
+    public static void main(final String[] args) {
+        final SimpleGUI gui = new SimpleGUI();
+        gui.start();
+    }
 }
