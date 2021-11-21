@@ -1,9 +1,18 @@
 package it.unibo.oop.lab.mvc;
 
+import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.border.Border;
 
 /**
  * A very simple program using a graphical interface.
@@ -16,7 +25,7 @@ public final class SimpleGUI {
     /*
      * Once the Controller is done, implement this class in such a way that:
      * 
-     * 1) I has a main method that starts the graphical application
+     * 1) It has a main method that starts the graphical application
      * 
      * 2) In its constructor, sets up the whole view
      * 
@@ -37,7 +46,7 @@ public final class SimpleGUI {
     /**
      * builds a new {@link SimpleGUI}.
      */
-    public SimpleGUI() {
+    public SimpleGUI(final Controller ctrl) {
 
         /*
          * Make the frame half the resolution of the screen. This very method is
@@ -54,12 +63,56 @@ public final class SimpleGUI {
         final int sh = (int) screen.getHeight();
         frame.setSize(sw / 2, sh / 2);
 
+        final JPanel contentPanel = new JPanel();
+        contentPanel.setLayout(new BorderLayout());
+        this.frame.setContentPane(contentPanel);
+
+        final JTextField textField = new JTextField();
+        textField.setEditable(false);
+
+        final JTextArea textArea = new JTextArea();
+
+        final JPanel buttonsArea = new JPanel();
+        buttonsArea.setLayout(new FlowLayout());
+
+        final JButton print = new JButton("Print");
+        print.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(final ActionEvent e) {
+                ctrl.printCurrentString();
+            } 
+        });
+        final JButton history = new JButton("History");
+        history.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(final ActionEvent e) {
+                for (final String str : ctrl.getStringsHistory()) {
+                    textArea.setText(str);
+                }
+            }
+        });
+        buttonsArea.add(print);
+        buttonsArea.add(history);
+
+        contentPanel.add(textField, BorderLayout.NORTH);
+        contentPanel.add(textArea, BorderLayout.CENTER);
+        contentPanel.add(buttonsArea, BorderLayout.SOUTH);
+
         /*
          * Instead of appearing at (0,0), upper left corner of the screen, this
          * flag makes the OS window manager take care of the default positioning
          * on screen. Results may vary, but it is generally the best choice.
          */
         frame.setLocationByPlatform(true);
+    }
+
+    public void start() {
+        this.frame.setVisible(true);
+    }
+
+    public static void main(final String...strings) {
+        final SimpleGUI gui = new SimpleGUI(null);
+        gui.start();
     }
 
 }
