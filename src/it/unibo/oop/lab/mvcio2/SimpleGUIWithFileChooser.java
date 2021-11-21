@@ -1,10 +1,64 @@
 package it.unibo.oop.lab.mvcio2;
 
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.Toolkit;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+
+
 /**
  * A very simple program using a graphical interface.
  * 
  */
 public final class SimpleGUIWithFileChooser {
+
+    private final JFrame frame = new JFrame();
+
+    public SimpleGUIWithFileChooser() {
+        final Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
+        final int sw = (int) screen.getWidth();
+        final int sh = (int) screen.getHeight();
+        this.frame.setSize(sw / 2, sh / 2);
+
+        frame.setLocationByPlatform(true);
+
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        final JPanel contentPanel = new JPanel();
+        contentPanel.setLayout(new BorderLayout());
+        this.frame.setContentPane(contentPanel);
+        
+        final JPanel fileChooserPanel = new JPanel();
+        fileChooserPanel.setLayout(new BorderLayout());
+        final JTextField currFile = new JTextField();
+        currFile.setEditable(false);
+        final JButton browseButton = new JButton("Browse...");
+        fileChooserPanel.add(currFile, BorderLayout.CENTER);
+        fileChooserPanel.add(browseButton, BorderLayout.SOUTH);
+        contentPanel.add(fileChooserPanel, BorderLayout.NORTH);
+        
+        final JPanel editorPanel = new JPanel();
+        editorPanel.setLayout(new BorderLayout());
+        final JTextArea editorArea = new JTextArea();
+        final JButton save = new JButton("Save");
+        editorPanel.add(editorArea, BorderLayout.CENTER);
+        editorPanel.add(save, BorderLayout.SOUTH);
+        contentPanel.add(editorPanel, BorderLayout.CENTER);
+    }
+
+    public void start() {
+        this.frame.setVisible(true);
+    }
+
+    public static void main(final String[] args) {
+        final SimpleGUIWithFileChooser gui = new SimpleGUIWithFileChooser();
+        gui.start();
+    }
 
     /*
      * TODO: Starting from the application in mvcio:
