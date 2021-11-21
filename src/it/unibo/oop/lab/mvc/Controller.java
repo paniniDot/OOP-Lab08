@@ -17,6 +17,8 @@ public interface Controller {
 
     /**
      * @return the next String to be printed.
+     * @throws IllegalStateException
+     *      if the current string is unset
      */
     String getStringToPrint();
 
