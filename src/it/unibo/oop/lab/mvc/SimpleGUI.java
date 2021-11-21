@@ -45,6 +45,8 @@ public final class SimpleGUI {
 
     /**
      * builds a new {@link SimpleGUI}.
+     * @param ctrl
+     *      Controller for I/O
      */
     public SimpleGUI(final Controller ctrl) {
 
@@ -68,9 +70,9 @@ public final class SimpleGUI {
         this.frame.setContentPane(contentPanel);
 
         final JTextField textField = new JTextField();
-        textField.setEditable(false);
 
         final JTextArea textArea = new JTextArea();
+        textArea.setEditable(false);
 
         final JPanel buttonsArea = new JPanel();
         buttonsArea.setLayout(new FlowLayout());
@@ -79,6 +81,7 @@ public final class SimpleGUI {
         print.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(final ActionEvent e) {
+                ctrl.setStringToprint(textField.getText());
                 ctrl.printCurrentString();
             } 
         });
@@ -86,9 +89,11 @@ public final class SimpleGUI {
         history.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(final ActionEvent e) {
+                final StringBuilder builder = new StringBuilder();
                 for (final String str : ctrl.getStringsHistory()) {
-                    textArea.setText(str);
+                    builder.append(str + "\n");
                 }
+                textArea.setText(builder.toString());
             }
         });
         buttonsArea.add(print);
@@ -104,6 +109,8 @@ public final class SimpleGUI {
          * on screen. Results may vary, but it is generally the best choice.
          */
         frame.setLocationByPlatform(true);
+
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
     public void start() {
@@ -111,7 +118,7 @@ public final class SimpleGUI {
     }
 
     public static void main(final String...strings) {
-        final SimpleGUI gui = new SimpleGUI(null);
+        final SimpleGUI gui = new SimpleGUI(new ControllerImpl());
         gui.start();
     }
 
