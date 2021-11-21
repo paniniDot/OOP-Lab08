@@ -24,7 +24,7 @@ public interface Controller {
      * 
      * @return the history of whole strings printed in form of a List
      */
-    List<String> stringsHistory();
+    List<String> getStringsHistory();
 
     /**
      * Prints the current string on STDOUT.
