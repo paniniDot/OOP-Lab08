@@ -4,6 +4,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintStream;
 
 /**
  * 
@@ -71,15 +72,9 @@ public class Controller {
      *      if the writing fails
      */
     public void writeOnCurrentFile(final String str) throws IOException {
-           if (!this.currFile.exists()) {
-               this.currFile.createNewFile();
-           }
-           if (!this.currFile.canWrite()) {
-               throw new IOException();
-           }
-           try (BufferedWriter bw = new BufferedWriter(new FileWriter(currFile))) {
-               bw.write(str);
-           }
+        try (PrintStream ps = new PrintStream(this.currFile)) {
+           ps.println(str);
+        }
     }
 
 }
