@@ -30,7 +30,7 @@ public final class SimpleGUIWithFileChooser {
         final Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
         final int sw = (int) screen.getWidth();
         final int sh = (int) screen.getHeight();
-        this.frame.setSize(sw / 2, sh / 2);
+        this.frame.setSize(sw / 4, sh / 4);
 
         frame.setLocationByPlatform(true);
 
@@ -58,7 +58,7 @@ public final class SimpleGUIWithFileChooser {
             }
         });
         fileChooserPanel.add(currFile, BorderLayout.CENTER);
-        fileChooserPanel.add(browseButton, BorderLayout.SOUTH);
+        fileChooserPanel.add(browseButton, BorderLayout.LINE_END);
         contentPanel.add(fileChooserPanel, BorderLayout.NORTH);
 
         final JPanel editorPanel = new JPanel();
