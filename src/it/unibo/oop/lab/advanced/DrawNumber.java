@@ -21,4 +21,12 @@ public interface DrawNumber {
      *             in case the game is lost
      */
     DrawResult attempt(int n) throws AttemptsLimitReachedException;
+
+    /**
+     * Displays a possible error occurred while playing.
+     * 
+     * @param message
+     *            error message to let the GUI shows
+     */
+    void displayError(String message);
 }
