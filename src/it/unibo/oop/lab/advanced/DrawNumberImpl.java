@@ -2,6 +2,8 @@ package it.unibo.oop.lab.advanced;
 
 import java.util.Random;
 
+import javax.swing.JOptionPane;
+
 /**
  *
  */
@@ -29,12 +31,18 @@ public final class DrawNumberImpl implements DrawNumber {
         this.reset();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void reset() {
         this.remainingAttempts = this.attempts;
         this.choice = this.min + random.nextInt(this.max - this.min + 1);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public DrawResult attempt(final int n) throws AttemptsLimitReachedException {
         if (this.remainingAttempts <= 0) {
@@ -51,6 +59,14 @@ public final class DrawNumberImpl implements DrawNumber {
             return DrawResult.YOURS_LOW;
         }
         return DrawResult.YOU_WON;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void displayError(final String message) {
+        JOptionPane.showMessageDialog(null, message);
     }
 
 }
